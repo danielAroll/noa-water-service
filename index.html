@@ -246,6 +246,38 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
   .home-link{width:40px;padding:8px;justify-content:center}
 }
 
+
+/* V6.2 - peer-test readiness */
+.validation-error{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;background:#fff1f0;border:1px solid #f1b8b4;color:#8b2f2a;font-weight:700}
+.review-card.missing{border-color:#e7b45c;background:#fffaf0}
+.review-card .missing-label{color:#9a6200;font-weight:900}
+.rep-fields{display:none;margin:0 0 18px;padding:16px;border:1px solid #f0d79c;background:#fffaf0;border-radius:14px}
+.rep-fields.show{display:block}
+.route-note{display:none;margin:18px 0;padding:16px;border:1px solid #b8ddec;background:#f1faff;border-radius:14px}
+.route-note.show{display:block}
+
+
+/* V6.3 - validation + My Requests */
+.my-requests-link{min-height:40px;border:0;background:transparent;color:var(--navy);font-weight:800;padding:8px 10px;border-radius:10px}
+.my-requests-link:hover{background:#f3f9fc}
+.my-requests{display:none;padding:34px 0 70px}
+.my-requests.show{display:block}
+.request-list{display:grid;gap:14px;margin-top:22px}
+.request-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(24,48,71,.05)}
+.request-item-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.request-item h3{margin:0 0 5px}
+.request-meta{color:var(--muted);font-size:.92rem}
+.request-next{margin-top:14px;padding:12px 14px;background:#f7fafb;border-radius:12px}
+.required-mark{color:#b7352d;font-weight:900}
+.doc-error{display:none;margin-top:7px;color:#9a312b;font-size:.86rem;font-weight:800}
+.upload.has-error{border-color:#d96a61;background:#fff7f6}
+.adult-conditional{margin-top:12px}
+.adult-docs{display:none;margin-top:12px}
+.adult-docs.show{display:block}
+.validation-summary{display:none;margin:16px 0;padding:15px;border:1px solid #e7b45c;background:#fff9ed;border-radius:14px}
+.validation-summary.show{display:block}
+@media(max-width:720px){.request-item-head{flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -261,7 +293,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
       <button class="home-link" onclick="goHome()" aria-label="חזרה לדף הבית">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
         <span>דף הבית</span>
-      </button>
+      </button><button class="my-requests-link" id="my-requests-nav" onclick="showMyRequests()">הבקשות שלי</button>
       <div class="role-switcher" aria-label="מעבר תצוגה">
       <button id="role-citizen" class="active" onclick="setRole('citizen')">תושב/ת</button>
       <button id="role-agent" onclick="setRole('agent')">סביבת נציג</button>
@@ -336,7 +368,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
           <div id="rep-extra" style="display:none;background:#fff8e8;border:1px solid #f0d79c;border-radius:14px;padding:14px;margin-bottom:14px">
             במסלול ייצוג נבקש גם את פרטי המגיש, תעודת הזהות שלו וייפוי כוח חתום.
           </div>
-          <div class="checklist">
+          <div class="checklist" id="prep-checklist">
             <div class="check"><i>✓</i><div><strong>תעודת זהות + ספח</strong><br><span class="hint">שלך ושל בעל הנכס</span></div></div>
             <div class="check"><i>✓</i><div><strong>חוזה השכירות</strong><br><span class="hint">העמודים הרלוונטיים לבקשה</span></div></div>
             <div class="check"><i>✓</i><div><strong>פרטי הנכס והמים</strong><br><span class="hint">מספר נכס ומספר כרטיס מים</span></div></div>
@@ -375,7 +407,19 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
       <div class="workspace">
         <section class="work-card">
           <div class="substep active" id="sub-1">
-            <h3>נתחיל בפרטים שלך</h3><p class="intro">הפרטים ישמשו גם כפרטי השוכרת, כך שלא תצטרכי להזין אותם שוב.</p>
+            <h3 id="sub1-heading">נתחיל בפרטים שלך</h3>
+            <div id="rep-fields" class="rep-fields">
+              <strong>פרטי המגיש/ה</strong>
+              <p class="hint">בחרת שמישהו אחר מגיש את הבקשה. לכן נדרשים גם פרטי המגיש וייפוי כוח חתום.</p>
+              <div class="form-grid">
+                <div class="field"><label>שם המגיש/ה</label><input value="עדי לוי"></div>
+                <div class="field"><label>מספר זהות</label><input value="246813579"></div>
+                <div class="field"><label>טלפון</label><input value="050-5554321"></div>
+                <div class="field"><label>דוא"ל</label><input value="adi@example.com"></div>
+                <div class="field full"><label>תעודת זהות של המגיש/ה <span class="required-mark">*</span></label><label class="upload" id="rep-id-upload"><input id="rep-id-file" type="file" onchange="docSelectedV63(this,'rep-id-upload','rep-id-error')"><div><strong>העלאת מסמך</strong><span>תעודת זהות של המגיש/ה</span></div></label><div id="rep-id-error" class="doc-error">יש לצרף תעודת זהות של המגיש/ה.</div></div>
+                <div class="field full"><label>ייפוי כוח חתום <span class="required-mark">*</span></label><label class="upload"><input id="poa-file" type="file" onchange="poaSelected(this)"><div id="poa-upload-text"><strong>העלאת ייפוי כוח</strong><span>נדרש כאשר הבקשה מוגשת עבור אדם אחר</span></div></label><div id="poa-error" class="validation-error">כדי להגיש בשם אדם אחר צריך לצרף ייפוי כוח חתום.</div></div>
+              </div>
+            </div><p class="intro">הפרטים ישמשו גם כפרטי השוכרת, כך שלא תצטרכי להזין אותם שוב.</p>
             <div class="form-grid">
               <div class="field"><label>שם פרטי</label><input value="נועה"></div>
               <div class="field"><label>שם משפחה</label><input value="ישראלי"></div>
@@ -383,7 +427,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
               <div class="field"><label>דוא"ל</label><input value="noa@example.com"></div>
               <div class="field"><label>סוג זיהוי</label><select><option>תעודת זהות</option></select></div>
               <div class="field"><label>מספר זהות</label><input value="123456789"></div>
-              <div class="field full"><label>תעודת זהות + ספח פתוח</label><label class="upload"><input type="file"><div><strong>העלאת מסמך</strong><span>PDF, JPG או צילום מהטלפון</span></div></label></div>
+              <div class="field full"><label>תעודת זהות + ספח פתוח <span class="required-mark">*</span></label><label class="upload" id="applicant-id-upload"><input id="applicant-id-file" type="file" onchange="docSelectedV63(this,'applicant-id-upload','applicant-id-error')"><div><strong>העלאת מסמך</strong><span>PDF, JPG או צילום מהטלפון</span></div></label><div id="applicant-id-error" class="doc-error">יש לצרף תעודת זהות + ספח פתוח.</div></div>
               <div class="field"><label>עיר</label><input value="רמת גן"></div>
               <div class="field"><label>רחוב</label><input value="ביאליק"></div>
               <div class="field"><label>מספר בית</label><input value="12"></div>
@@ -402,10 +446,21 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
               <div class="field"><label>מספר דיירים</label><input type="number" value="3"></div>
               <div class="field full">
                 <div class="meter-guide"><div class="meter-screen">12543</div><div><strong>לפני שמצלמים</strong><div class="hint">כל הספרות צריכות להיות גלויות, התמונה חדה וללא השתקפות.</div></div></div>
-                <label>צילום מונה</label><label class="upload"><input type="file" onchange="meterSelected(this)"><div id="meter-upload-text"><strong>צילום או בחירת תמונה</strong><span>אפשר להשתמש במצלמת הטלפון</span></div></label>
-                <div id="ai-box" class="ai" style="display:none"><strong>בדקנו את הצילום</strong><div class="hint">יש ספרה אחת שלא הצלחנו לקרוא בוודאות. אפשר להעלות צילום ברור יותר או להמשיך לבדיקה אנושית.</div></div>
+                <label>צילום מונה</label><label class="upload"><input id="meter-file" type="file" accept="image/*" capture="environment" onchange="meterSelected(this)"><div id="meter-upload-text"><strong>צילום או בחירת תמונה</strong><span>אפשר להשתמש במצלמת הטלפון</span></div></label>
+                <div id="ai-box" class="ai" style="display:none"><strong>בדקנו את הצילום</strong><div class="hint">יש ספרה אחת שלא הצלחנו לקרוא בוודאות. אפשר להעלות צילום ברור יותר או להמשיך לבדיקה אנושית.</div></div><div id="meter-error" class="validation-error">חסר צילום מונה. הקריאה 12,543 והתאריך 20/09/2026 נשמרו - צריך להשלים רק את הצילום.</div>
               </div>
-              <div class="field full"><label>מסמכי בגירים המתגוררים בנכס</label><label class="upload"><input type="file" multiple><div><strong>העלאת תעודות זהות וספחים</strong><span>אפשר לבחור כמה קבצים</span></div></label></div>
+              <div class="field full adult-conditional">
+                <label>האם מתגוררים בנכס בגירים נוספים מלבדך?</label>
+                <div class="choice-row" style="margin-top:8px">
+                  <button type="button" class="choice selected" id="adult-no" onclick="setAdditionalAdultsV63(false,this)">לא</button>
+                  <button type="button" class="choice" id="adult-yes" onclick="setAdditionalAdultsV63(true,this)">כן</button>
+                </div>
+                <div id="adult-docs" class="adult-docs">
+                  <label style="margin-top:12px">תעודות זהות + ספחים של הבגירים הנוספים <span class="required-mark">*</span></label>
+                  <label class="upload" id="adult-doc-upload"><input id="adult-doc-file" type="file" multiple onchange="docSelectedV63(this,'adult-doc-upload','adult-doc-error')"><div><strong>העלאת תעודות זהות וספחים</strong><span>אפשר לבחור כמה קבצים</span></div></label>
+                  <div id="adult-doc-error" class="doc-error">ציינת שיש בגירים נוספים - יש לצרף את המסמכים שלהם.</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -415,23 +470,26 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
             <div class="form-grid">
               <div class="field"><label>שם בעל הנכס</label><input value="דוד כהן"></div>
               <div class="field"><label>מספר זהות בעל הנכס</label><input value="987654321"></div>
+              <div class="field full"><label>תעודת זהות של בעל הנכס <span class="required-mark">*</span></label><label class="upload" id="owner-id-upload"><input id="owner-id-file" type="file" onchange="docSelectedV63(this,'owner-id-upload','owner-id-error')"><div><strong>העלאת תעודת זהות</strong><span>מסמך של בעל הנכס</span></div></label><div id="owner-id-error" class="doc-error">יש לצרף תעודת זהות של בעל הנכס.</div></div>
               <div class="field"><label>טלפון בעל הנכס</label><input value="052-5551234"></div>
               <div class="field"><label>דוא"ל בעל הנכס</label><input value="david@example.com"></div>
               <div class="field"><label>תאריך כניסה לנכס</label><input type="date" value="2026-09-20"></div>
               <div class="field"><label>כתובת למשלוח דואר / גמר חשבון</label><select><option>זהה לנכס</option><option>כתובת אחרת</option></select></div>
               <div class="field full"><label>תעודת זהות בעל הנכס</label><label class="upload"><input type="file"><div><strong>העלאת מסמך</strong><span>תעודת זהות וספח</span></div></label></div>
-              <div class="field full"><label>חוזה שכירות</label><label class="upload"><input type="file"><div><strong>העלאת החוזה</strong><span>PDF או תמונות ברורות</span></div></label></div>
+              <div class="field full"><label>חוזה שכירות</label><label class="upload" id="lease-upload"><input id="lease-file" type="file" onchange="docSelectedV63(this,'lease-upload','lease-error')"><div><strong>העלאת החוזה</strong><span>PDF או תמונות ברורות</span></div></label><div id="lease-error" class="doc-error">יש לצרף את מסמכי חוזה השכירות הנדרשים.</div></div>
             </div>
           </div>
 
           <div class="substep" id="sub-4">
             <h3>בדיקה לפני שליחה</h3><p class="intro">במקום לעבור שוב על כל השדות, ריכזנו את הדברים שכדאי לבדוק.</p>
+<div id="validation-summary" class="validation-summary"><strong>יש עוד כמה פריטים שצריך להשלים לפני השליחה</strong><div class="hint" id="validation-summary-copy"></div></div>
             <div class="review-grid">
               <div class="review-card"><strong>הפרטים שלך</strong><div class="good">✓ הושלם</div><div class="hint">נועה ישראלי · 050-1234567</div><button class="inline-help" onclick="goSub(1)">עריכה</button></div>
               <div class="review-card"><strong>הנכס</strong><div class="good">✓ הושלם</div><div class="hint">ביאליק 12, דירה 8, רמת גן</div><button class="inline-help" onclick="goSub(1)">עריכה</button></div>
-              <div class="review-card"><strong>מים ודיירים</strong><div class="good">✓ הושלם</div><div class="hint">קריאה 12,543 · 3 דיירים</div><button class="inline-help" onclick="goSub(2)">עריכה</button></div>
+              <div class="review-card" id="water-review"><strong>מים ודיירים</strong><div id="water-review-status" class="missing-label">! חסר צילום מונה</div><div class="hint">קריאה 12,543 · 3 דיירים · הקריאה והתאריך נשמרו</div><button class="inline-help" onclick="goSub(2)">השלמת צילום</button></div>
               <div class="review-card"><strong>שכירות ובעלים</strong><div class="good">✓ הושלם</div><div class="hint">כניסה 20/09/2026 · דוד כהן</div><button class="inline-help" onclick="goSub(3)">עריכה</button></div>
             </div>
+            <div id="rep-review" class="review-card missing" style="display:none;margin-top:12px"><strong>הגשה באמצעות נציג/ה</strong><div id="rep-review-status" class="missing-label">! נדרש ייפוי כוח חתום</div><div class="hint">פרטי המגיש נשמרו. לפני השליחה צריך לצרף ייפוי כוח.</div><button class="inline-help" onclick="goSub(1)">השלמת מסמך</button></div>
             <div class="field" style="margin-top:18px"><label>הערות לבקשה - לא חובה</label><textarea placeholder="יש משהו שחשוב שנדע?"></textarea></div>
             <label style="display:flex;gap:10px;margin-top:16px"><input type="checkbox" checked style="width:auto;min-height:auto"> <span>קראתי את ההצהרה ואני מאשרת שהפרטים שמסרתי נכונים.</span></label>
             <div style="margin-top:18px;padding:16px;background:#f8fbfc;border-radius:14px"><strong>חתימה</strong><div class="hint">שלב החתימה מודגם בפרוטוטייפ.</div><div style="font-family:cursive;font-size:1.6rem;margin-top:8px">נועה ישראלי</div></div>
@@ -467,10 +525,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
       </div>
       <h3>מה קורה עכשיו?</h3>
       <p>אין צורך לעשות דבר כרגע. אם יחסר מסמך או פרט, נבקש ממך להשלים רק אותו - בלי למלא את הבקשה מחדש.</p>
-      <div class="action-row">
-        <button class="btn btn-secondary" onclick="goHome()">חזרה לדף הבית</button>
-        <button class="btn btn-secondary" onclick="showFix()">הדגמת בקשת השלמה</button>
-      </div>
+      <div class="action-row"><button class="btn btn-secondary" onclick="goHome()">חזרה לדף הבית</button></div>
     </div></div>
   </section>
 
@@ -489,6 +544,33 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
 </main>
 
 
+
+<section id="my-requests" class="my-requests">
+  <div class="shell">
+    <div class="breadcrumb">שירותים דיגיטליים / הבקשות שלי</div>
+    <div class="section-head">
+      <div><h1 style="font-size:2rem;margin-bottom:6px">הבקשות שלי</h1><p>כאן אפשר לראות מה מצב הבקשה ומה נדרש ממך עכשיו.</p></div>
+      <button class="btn btn-secondary" onclick="goHome()">חזרה לשירותים</button>
+    </div>
+    <div class="request-list">
+      <article class="request-item">
+        <div class="request-item-head">
+          <div><h3>#45821 - החלפת משלמים</h3><div class="request-meta">ביאליק 12, דירה 8 · תחילת שכירות</div></div>
+          <span class="pill warn">נדרשת השלמה</span>
+        </div>
+        <div class="request-next"><strong>מה נדרש עכשיו?</strong><div>יש להשלים צילום מונה. שאר הנתונים שכבר נמסרו נשמרו.</div></div>
+        <div class="action-row"><button class="btn btn-primary" onclick="openRequestCompletionV63()">השלמת צילום מונה</button><button class="btn btn-secondary" onclick="showRequestDetailsV63()">צפייה בפרטי הבקשה</button></div>
+      </article>
+      <article class="request-item">
+        <div class="request-item-head">
+          <div><h3>#45102 - החלפת משלמים</h3><div class="request-meta">בקשה קודמת</div></div>
+          <span class="pill ok">הטיפול הסתיים</span>
+        </div>
+        <div class="request-next"><strong>אין פעולה שנדרשת ממך</strong><div>הטיפול בבקשה הסתיים.</div></div>
+      </article>
+    </div>
+  </div>
+</section>
 <section id="agent-view" class="bo">
   <div class="bo-shell">
     <div class="bo-head">
@@ -713,6 +795,269 @@ function goHome(){
 
   window.scrollTo(0,0);
 }
+</script>
+
+
+<script>
+let selectedJourneyV62='rent-in';
+let representativeV62=false;
+let meterUploadedV62=false;
+let poaUploadedV62=false;
+
+const routeCopyV62={
+  'rent-in':{
+    title:'תחילת שכירות',
+    intro:'נכנסתי לדירה בשכירות',
+    checklist:[
+      ['תעודת זהות + ספח','שלך ושל בעל הנכס'],
+      ['חוזה השכירות','לפי מסמכי המקור הנדרשים'],
+      ['פרטי הנכס והמים','מספר נכס ומספר כרטיס מים'],
+      ['צילום מונה עדכני','כולל קריאה ותאריך']
+    ]
+  },
+  'rent-out':{title:'סיום שכירות',intro:'סיימתי שכירות'},
+  'buy':{title:'רכישת נכס',intro:'קניתי נכס'},
+  'sell':{title:'מכירת נכס',intro:'מכרתי נכס'}
+};
+
+selectJourney = function(el,type){
+  selectedJourneyV62=type;
+  document.querySelectorAll('.journey-card').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  const prep=document.getElementById('prep');
+  if(prep) prep.classList.add('show');
+
+  const list=document.getElementById('prep-checklist');
+  if(type==='rent-in'){
+    list.innerHTML=routeCopyV62[type].checklist.map(x=>'<div class="check"><i>✓</i><div><strong>'+x[0]+'</strong><br><span class="hint">'+x[1]+'</span></div></div>').join('');
+  } else {
+    list.innerHTML=
+      '<div class="check"><i>✓</i><div><strong>המסמכים משתנים לפי סוג ההחלפה</strong><br><span class="hint">הפרוטוטייפ המלא בתרגיל מתמקד במסלול של נועה - תחילת שכירות. לא מוצגות כאן דרישות שלא הוגדרו במקור.</span></div></div>'+
+      '<div class="check"><i>✓</i><div><strong>פרטי הנכס והמים</strong><br><span class="hint">המערכת תתאים את המשך התהליך למסלול שנבחר.</span></div></div>';
+  }
+};
+
+selectSubmitter = function(el,isRep){
+  representativeV62=isRep;
+  document.querySelectorAll('.submitter .choice').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('rep-extra').style.display=isRep?'block':'none';
+};
+
+startApplication = function(){
+  if(selectedJourneyV62!=='rent-in'){
+    const label=routeCopyV62[selectedJourneyV62].title;
+    const prep=document.getElementById('prep');
+    let note=document.getElementById('route-scope-note');
+    if(!note){
+      note=document.createElement('div');
+      note.id='route-scope-note';
+      note.className='route-note';
+      prep.appendChild(note);
+    }
+    note.innerHTML='<strong>'+label+'</strong><div style="margin-top:5px">הבחירה זוהתה. בתרגיל הנוכחי המסלול המפורט שנבדק הוא "תחילת שכירות", ולכן לא המצאנו למסלול הזה שדות או מסמכים שלא הופיעו בחומר המקור. אפשר לחזור ולבחור "נכנסתי לדירה בשכירות" כדי לבצע את התרחיש המלא.</div>';
+    note.classList.add('show');
+    note.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  const note=document.getElementById('route-scope-note'); if(note) note.classList.remove('show');
+  document.getElementById('landing').style.display='none';
+  document.getElementById('application').classList.add('show');
+  document.getElementById('rep-fields').classList.toggle('show',representativeV62);
+  document.getElementById('rep-review').style.display=representativeV62?'block':'none';
+  document.querySelector('.app-title small').textContent='החלפת משלמים · תחילת שכירות';
+  window.scrollTo(0,0);goSub(1);
+};
+
+meterSelected = function(input){
+  if(input.files&&input.files.length){
+    meterUploadedV62=true;
+    document.getElementById('meter-upload-text').innerHTML='<strong>✓ '+input.files[0].name+'</strong><span>הקובץ צורף. אפשר להחליף אותו בלחיצה נוספת.</span>';
+    document.getElementById('ai-box').style.display='block';
+    document.getElementById('meter-error').style.display='none';
+    updateReviewV62();
+  }
+};
+function poaSelected(input){
+  if(input.files&&input.files.length){
+    poaUploadedV62=true;
+    document.getElementById('poa-upload-text').innerHTML='<strong>✓ '+input.files[0].name+'</strong><span>ייפוי הכוח צורף</span>';
+    document.getElementById('poa-error').style.display='none';
+    updateReviewV62();
+  }
+}
+function updateReviewV62(){
+  const wr=document.getElementById('water-review');
+  const ws=document.getElementById('water-review-status');
+  if(wr&&ws){
+    wr.classList.toggle('missing',!meterUploadedV62);
+    ws.className=meterUploadedV62?'good':'missing-label';
+    ws.textContent=meterUploadedV62?'✓ הושלם':'! חסר צילום מונה';
+  }
+  const rr=document.getElementById('rep-review');
+  const rs=document.getElementById('rep-review-status');
+  if(rr&&rs&&representativeV62){
+    rr.classList.toggle('missing',!poaUploadedV62);
+    rs.className=poaUploadedV62?'good':'missing-label';
+    rs.textContent=poaUploadedV62?'✓ ייפוי כוח צורף':'! נדרש ייפוי כוח חתום';
+  }
+}
+const originalGoSubV62=goSub;
+goSub=function(n){
+  originalGoSubV62(n);
+  if(n===4) updateReviewV62();
+};
+
+finishSubmission = function(){
+  if(!meterUploadedV62){
+    goSub(2);
+    const e=document.getElementById('meter-error');
+    e.style.display='block';
+    e.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  if(representativeV62&&!poaUploadedV62){
+    goSub(1);
+    const e=document.getElementById('poa-error');
+    e.style.display='block';
+    e.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  document.getElementById('application').classList.remove('show');
+  document.getElementById('confirmation').classList.add('show');
+  window.scrollTo(0,0);
+};
+
+const originalGoHomeV62=goHome;
+goHome=function(){
+  originalGoHomeV62();
+  selectedJourneyV62='rent-in';
+  representativeV62=false;
+  meterUploadedV62=false;
+  poaUploadedV62=false;
+  document.querySelectorAll('.journey-card').forEach((x,i)=>x.classList.toggle('selected',i===0));
+  document.querySelectorAll('.submitter .choice').forEach((x,i)=>x.classList.toggle('selected',i===0));
+  const rep=document.getElementById('rep-extra'); if(rep) rep.style.display='none';
+  const rf=document.getElementById('rep-fields'); if(rf) rf.classList.remove('show');
+  const rr=document.getElementById('rep-review'); if(rr) rr.style.display='none';
+  const me=document.getElementById('meter-error'); if(me) me.style.display='none';
+  const pe=document.getElementById('poa-error'); if(pe) pe.style.display='none';
+  const ai=document.getElementById('ai-box'); if(ai) ai.style.display='none';
+  const mt=document.getElementById('meter-upload-text'); if(mt) mt.innerHTML='<strong>צילום או בחירת תמונה</strong><span>אפשר להשתמש במצלמת הטלפון</span>';
+  const note=document.getElementById('route-scope-note'); if(note) note.remove();
+  selectJourney(document.querySelector('.journey-card'),'rent-in');
+};
+</script>
+
+
+<script>
+let additionalAdultsV63=false;
+
+function fileHasValueV63(id){
+  const el=document.getElementById(id);
+  return !!(el && el.files && el.files.length);
+}
+function docSelectedV63(input,uploadId,errorId){
+  if(input.files&&input.files.length){
+    const up=document.getElementById(uploadId), er=document.getElementById(errorId);
+    if(up) up.classList.remove('has-error');
+    if(er) er.style.display='none';
+  }
+}
+function setAdditionalAdultsV63(hasAdults,btn){
+  additionalAdultsV63=hasAdults;
+  document.getElementById('adult-docs').classList.toggle('show',hasAdults);
+  document.querySelectorAll('#adult-no,#adult-yes').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');
+  if(!hasAdults){
+    const er=document.getElementById('adult-doc-error'); if(er) er.style.display='none';
+    const up=document.getElementById('adult-doc-upload'); if(up) up.classList.remove('has-error');
+  }
+}
+function markMissingV63(fileId,uploadId,errorId,missing){
+  const up=document.getElementById(uploadId), er=document.getElementById(errorId);
+  if(up) up.classList.toggle('has-error',missing);
+  if(er) er.style.display=missing?'block':'none';
+}
+function missingDocsV63(){
+  const m=[];
+  if(!fileHasValueV63('applicant-id-file')) m.push({name:'תעודת זהות + ספח של הפונה',step:1,file:'applicant-id-file',upload:'applicant-id-upload',error:'applicant-id-error'});
+  if(!meterUploadedV62) m.push({name:'צילום מונה',step:2,file:'meter-file',upload:null,error:'meter-error'});
+  if(additionalAdultsV63 && !fileHasValueV63('adult-doc-file')) m.push({name:'מסמכי הבגירים הנוספים',step:2,file:'adult-doc-file',upload:'adult-doc-upload',error:'adult-doc-error'});
+  if(!fileHasValueV63('owner-id-file')) m.push({name:'תעודת זהות של בעל הנכס',step:3,file:'owner-id-file',upload:'owner-id-upload',error:'owner-id-error'});
+  if(document.getElementById('lease-file') && !fileHasValueV63('lease-file')) m.push({name:'חוזה שכירות',step:3,file:'lease-file',upload:'lease-upload',error:'lease-error'});
+  if(representativeV62 && !fileHasValueV63('rep-id-file')) m.push({name:'תעודת זהות של המגיש/ה',step:1,file:'rep-id-file',upload:'rep-id-upload',error:'rep-id-error'});
+  if(representativeV62 && !poaUploadedV62) m.push({name:'ייפוי כוח חתום',step:1,file:'poa-file',upload:null,error:'poa-error'});
+  return m;
+}
+function refreshValidationSummaryV63(){
+  const box=document.getElementById('validation-summary'), copy=document.getElementById('validation-summary-copy');
+  if(!box||!copy) return;
+  const m=missingDocsV63();
+  box.classList.toggle('show',m.length>0);
+  copy.textContent=m.length ? 'חסרים: '+m.map(x=>x.name).join(', ')+'.' : '';
+}
+const goSubBeforeV63=goSub;
+goSub=function(n){
+  goSubBeforeV63(n);
+  if(n===4) refreshValidationSummaryV63();
+};
+
+finishSubmission=function(){
+  const missing=missingDocsV63();
+  if(missing.length){
+    const first=missing[0];
+    goSub(first.step);
+    if(first.error){
+      const e=document.getElementById(first.error); if(e){e.style.display='block';e.scrollIntoView({behavior:'smooth',block:'center'});}
+    }
+    if(first.upload){
+      const u=document.getElementById(first.upload); if(u) u.classList.add('has-error');
+    }
+    return;
+  }
+  document.getElementById('application').classList.remove('show');
+  document.getElementById('confirmation').classList.add('show');
+  window.scrollTo(0,0);
+};
+
+function showMyRequests(){
+  const citizen=document.getElementById('citizen-view');
+  const agent=document.getElementById('agent-view'), ops=document.getElementById('ops-view');
+  if(agent){agent.style.display='none';agent.classList.remove('active')}
+  if(ops){ops.style.display='none';ops.classList.remove('active')}
+  if(citizen) citizen.style.display='block';
+  ['landing','application','confirmation','fix'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    if(id==='landing') el.style.display='none'; else el.classList.remove('show');
+  });
+  document.getElementById('my-requests').classList.add('show');
+  window.scrollTo(0,0);
+}
+function openRequestCompletionV63(){
+  document.getElementById('my-requests').classList.remove('show');
+  setRole('citizen');
+  showFix();
+}
+function showRequestDetailsV63(){
+  document.getElementById('my-requests').classList.remove('show');
+  setRole('citizen');
+  document.getElementById('confirmation').classList.add('show');
+  window.scrollTo(0,0);
+}
+
+const goHomeBeforeV63=goHome;
+goHome=function(){
+  const mr=document.getElementById('my-requests'); if(mr) mr.classList.remove('show');
+  goHomeBeforeV63();
+  additionalAdultsV63=false;
+  const ad=document.getElementById('adult-docs'); if(ad) ad.classList.remove('show');
+  const no=document.getElementById('adult-no'), yes=document.getElementById('adult-yes');
+  if(no) no.classList.add('selected'); if(yes) yes.classList.remove('selected');
+  ['applicant-id-error','owner-id-error','lease-error','rep-id-error','adult-doc-error'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'});
+  ['applicant-id-upload','owner-id-upload','lease-upload','rep-id-upload','adult-doc-upload'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('has-error')});
+  const vs=document.getElementById('validation-summary'); if(vs) vs.classList.remove('show');
+};
 </script>
 
 </body></html>
