@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-<!-- V6.9 compact above-the-fold landing -->
+<!-- V6.10 ops assignment and meter formatting -->
 <!-- V6.5 contextual visual guidance based on peer feedback. Illustrations only; no invented document requirements. -->
 <!-- V6.4 clean: preparation screen structurally redesigned from V6.3 after peer feedback; no duplicated submitter UI. -->
 <meta charset="utf-8">
@@ -459,6 +459,19 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
  .submitter{grid-template-columns:1fr!important}
 }
 
+
+/* V6.10 - ops request assignment list */
+.assign-details-v610{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.assign-details-v610 summary{cursor:pointer;padding:12px 14px;font-weight:850;color:var(--navy)}
+.assign-list-v610{border-top:1px solid var(--line)}
+.assign-row-v610{display:grid;grid-template-columns:1fr 170px 82px;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}
+.assign-row-v610:last-child{border-bottom:0}
+.assign-row-v610 strong,.assign-row-v610 span{display:block}
+.assign-row-v610 span{font-size:.78rem;color:var(--muted);margin-top:2px}
+.assign-row-v610 select{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.assign-row-v610.assigned{opacity:.58}
+@media(max-width:720px){.assign-row-v610{grid-template-columns:1fr}.assign-row-v610 select{max-width:none}}
+
 </style>
 </head>
 <body>
@@ -652,12 +665,12 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
             <div class="form-grid">
               <div class="field"><label>מספר כרטיס מים <button class="inline-help" onclick="openModal()">איפה מוצאים?</button></label><input value="981240"></div>
               <div class="field"><label>תאריך הקריאה</label><input type="date" value="2026-09-20"></div>
-              <div class="field"><label>קריאת מונה</label><input value="12,543"></div>
+              <div class="field"><label>קריאת מונה</label><input value="12543"></div>
               <div class="field"><label>מספר דיירים</label><input type="number" value="3"></div>
               <div class="field full">
                 <div class="meter-guide"><div class="meter-screen">12543</div><div><strong>לפני שמצלמים</strong><div class="hint">כל הספרות צריכות להיות גלויות, התמונה חדה וללא השתקפות.</div></div></div>
                 <label>צילום מונה</label><label class="upload"><input id="meter-file" type="file" accept="image/*" capture="environment" onchange="meterSelected(this)"><div id="meter-upload-text"><strong>צילום או בחירת תמונה</strong><span>אפשר להשתמש במצלמת הטלפון</span></div></label>
-                <div id="ai-box" class="ai" style="display:none"><strong>בדקנו את הצילום</strong><div class="hint">יש ספרה אחת שלא הצלחנו לקרוא בוודאות. אפשר להעלות צילום ברור יותר או להמשיך לבדיקה אנושית.</div></div><div id="meter-error" class="validation-error">חסר צילום מונה. הקריאה 12,543 והתאריך 20/09/2026 נשמרו - צריך להשלים רק את הצילום.</div>
+                <div id="ai-box" class="ai" style="display:none"><strong>בדקנו את הצילום</strong><div class="hint">יש ספרה אחת שלא הצלחנו לקרוא בוודאות. אפשר להעלות צילום ברור יותר או להמשיך לבדיקה אנושית.</div></div><div id="meter-error" class="validation-error">חסר צילום מונה. הקריאה 12543 והתאריך 20/09/2026 נשמרו - צריך להשלים רק את הצילום.</div>
               </div>
               <div class="field full adult-conditional">
                 <label>האם מתגוררים בנכס בגירים נוספים מלבדך?</label>
@@ -696,7 +709,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
             <div class="review-grid">
               <div class="review-card"><strong>הפרטים שלך</strong><div class="good">✓ הושלם</div><div class="hint">נועה ישראלי · 050-1234567</div><button class="inline-help" onclick="goSub(1)">עריכה</button></div>
               <div class="review-card"><strong>הנכס</strong><div class="good">✓ הושלם</div><div class="hint">ביאליק 12, דירה 8, רמת גן</div><button class="inline-help" onclick="goSub(1)">עריכה</button></div>
-              <div class="review-card" id="water-review"><strong>מים ודיירים</strong><div id="water-review-status" class="missing-label">! חסר צילום מונה</div><div class="hint">קריאה 12,543 · 3 דיירים · הקריאה והתאריך נשמרו</div><button class="inline-help" onclick="goSub(2)">השלמת צילום</button></div>
+              <div class="review-card" id="water-review"><strong>מים ודיירים</strong><div id="water-review-status" class="missing-label">! חסר צילום מונה</div><div class="hint">קריאה 12543 · 3 דיירים · הקריאה והתאריך נשמרו</div><button class="inline-help" onclick="goSub(2)">השלמת צילום</button></div>
               <div class="review-card"><strong>שכירות ובעלים</strong><div class="good">✓ הושלם</div><div class="hint">כניסה 20/09/2026 · דוד כהן</div><button class="inline-help" onclick="goSub(3)">עריכה</button></div>
             </div>
             <div id="rep-review" class="review-card missing" style="display:none;margin-top:12px"><strong>הגשה באמצעות נציג/ה</strong><div id="rep-review-status" class="missing-label">! נדרש ייפוי כוח חתום</div><div class="hint">פרטי המגיש נשמרו. לפני השליחה צריך לצרף ייפוי כוח.</div><button class="inline-help" onclick="goSub(1)">השלמת מסמך</button></div>
@@ -745,7 +758,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
       <div style="margin-top:18px"><span style="color:var(--amber);font-weight:850">נדרשת השלמה</span></div>
       <h2>צילום מונה ברור</h2>
       <p>חסר לנו צילום ברור של מונה המים. הקריאה והתאריך שכבר הזנת נשמרו.</p>
-      <div class="saved-data"><div><span class="hint">תאריך קריאה</span><br><strong>20/09/2026</strong></div><div><span class="hint">קריאה</span><br><strong>12,543</strong></div></div>
+      <div class="saved-data"><div><span class="hint">תאריך קריאה</span><br><strong>20/09/2026</strong></div><div><span class="hint">קריאה</span><br><strong>12543</strong></div></div>
       <label class="upload"><input id="fix-photo" type="file" accept="image/*" onchange="fixSelected(this)"><div id="fix-text"><strong>העלאת צילום חדש</strong><span>צלמי את כל לוח המונה כך שכל הספרות ברורות</span></div></label>
       <div class="action-row"><button class="btn btn-primary" onclick="submitFix()">שליחת הצילום והמשך טיפול ←</button></div>
       <div id="fix-success" class="success-inline" role="status" aria-live="polite"><strong>✓ הצילום התקבל</strong><div>הצילום נוסף לפנייה #45821 והבקשה חזרה לבדיקה. הקריאה והתאריך נשמרו.</div></div>
@@ -827,8 +840,8 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
                 <h3>הצילום התקבל, אבל הקריאה אינה ודאית</h3>
                 <div>המערכת זיהתה ערך שונה מהערך שהוזן. נדרשת החלטת נציג - המערכת לא מתקנת אוטומטית.</div>
                 <div class="compare">
-                  <div><small>הוזן על ידי נועה</small><strong>12,543</strong></div>
-                  <div><small>זוהה מהצילום</small><strong>12,548 <span class="hint">· ודאות נמוכה</span></strong></div>
+                  <div><small>הוזן על ידי נועה</small><strong>12543</strong></div>
+                  <div><small>זוהה מהצילום</small><strong>12548 <span class="hint">· ודאות נמוכה</span></strong></div>
                 </div>
               </div>
               <div class="case-card">
@@ -841,7 +854,7 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
                 </div>
               </div>
               <div class="case-actions">
-                <button class="btn btn-primary" onclick="approveMeter()">אישור הקריאה 12,543</button>
+                <button class="btn btn-primary" onclick="approveMeter()">אישור הקריאה 12543</button>
                 <button class="btn btn-secondary" onclick="requestCompletion()">בקשת צילום חדש</button>
               </div>
               <div id="agent-msg" class="success-inline" role="status" aria-live="polite"></div>
@@ -886,9 +899,17 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
           <div class="issue"><div class="issue-icon">5</div><div><h4>ממתינות להשלמה</h4><p>בקשות שבהן נשלחה לתושב דרישה ממוקדת להשלמת מידע.</p></div><button class="btn btn-secondary" onclick="opsMessage('נפתחה תצוגת הבקשות שממתינות להשלמה.')">צפייה</button></div>
         </div>
         <div id="assign-box" class="attention" style="display:none;margin-top:14px">
-          <h3>הקצאת בקשות</h3>
-          <p>בחרי נציג עבור 4 הבקשות הלא משויכות.</p>
-          <div class="form-grid"><div class="field"><label>נציג/ה</label><select><option>מיכל</option><option>יוסי</option><option>דנה</option></select></div><div class="field"><label>&nbsp;</label><button class="btn btn-primary" onclick="opsMessage('ההקצאה נשמרה בפרוטוטייפ.')">הקצאה</button></div></div>
+          <h3>4 בקשות ללא נציג</h3>
+          <p>אפשר לפתוח את הרשימה, לראות את הבקשות ולשייך כל בקשה לנציג/ה.</p>
+          <details class="assign-details-v610" open>
+            <summary>הצגת 4 הבקשות</summary>
+            <div class="assign-list-v610">
+              <div class="assign-row-v610"><div><strong>#45829 - מאיה לוי</strong><span>תחילת שכירות · הרצל 18, דירה 4</span></div><select aria-label="שיוך בקשה 45829"><option value="">בחירת נציג/ה</option><option>מיכל</option><option>יוסי</option><option>דנה</option></select><button class="btn btn-secondary" onclick="assignOneV610(this,'#45829')">שיוך</button></div>
+              <div class="assign-row-v610"><div><strong>#45827 - רועי כהן</strong><span>סיום שכירות · הרא"ה 7, דירה 2</span></div><select aria-label="שיוך בקשה 45827"><option value="">בחירת נציג/ה</option><option>מיכל</option><option>יוסי</option><option>דנה</option></select><button class="btn btn-secondary" onclick="assignOneV610(this,'#45827')">שיוך</button></div>
+              <div class="assign-row-v610"><div><strong>#45825 - יעל אברהם</strong><span>תחילת שכירות · ביאליק 31, דירה 6</span></div><select aria-label="שיוך בקשה 45825"><option value="">בחירת נציג/ה</option><option>מיכל</option><option>יוסי</option><option>דנה</option></select><button class="btn btn-secondary" onclick="assignOneV610(this,'#45825')">שיוך</button></div>
+              <div class="assign-row-v610"><div><strong>#45822 - דניאל פרץ</strong><span>תחילת שכירות · ז'בוטינסקי 42, דירה 9</span></div><select aria-label="שיוך בקשה 45822"><option value="">בחירת נציג/ה</option><option>מיכל</option><option>יוסי</option><option>דנה</option></select><button class="btn btn-secondary" onclick="assignOneV610(this,'#45822')">שיוך</button></div>
+            </div>
+          </details>
         </div>
         <div id="ops-msg" class="success-inline" role="status" aria-live="polite"></div>
       </div>
@@ -1375,6 +1396,24 @@ selectSubmitter=function(el,isRep){
     box.classList.add('open'); if(btn) btn.classList.add('open');
   }
 };
+</script>
+
+
+<script>
+function assignOneV610(btn,requestId){
+  const row=btn.closest('.assign-row-v610');
+  const select=row.querySelector('select');
+  if(!select.value){
+    opsMessage('יש לבחור נציג/ה לפני השיוך.');
+    select.focus();
+    return;
+  }
+  row.classList.add('assigned');
+  select.disabled=true;
+  btn.disabled=true;
+  btn.textContent='שויך ✓';
+  opsMessage(requestId+' שויכה ל'+select.value+'.');
+}
 </script>
 
 </body></html>
