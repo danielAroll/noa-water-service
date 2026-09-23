@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-<!-- V6.8 dynamic route and submitter preparation -->
+<!-- V6.9 compact above-the-fold landing -->
 <!-- V6.5 contextual visual guidance based on peer feedback. Illustrations only; no invented document requirements. -->
 <!-- V6.4 clean: preparation screen structurally redesigned from V6.3 after peer feedback; no duplicated submitter UI. -->
 <meta charset="utf-8">
@@ -406,6 +406,57 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
   .journey-card{min-height:88px}
   .submitter{grid-template-columns:1fr 1fr}
   .how-small-v67 .how-line{grid-template-columns:1fr 1fr}
+}
+
+
+/* V6.9 - above-the-fold compact landing experiment */
+.hero{padding:12px 0 14px!important}
+.hero-grid{grid-template-columns:1.55fr .45fr!important;gap:18px!important;align-items:center}
+.hero-copy{margin-bottom:8px!important}
+.hero h1{font-size:clamp(1.7rem,3vw,2.35rem)!important;line-height:1.05!important;margin:5px 0 7px!important}
+.hero p{font-size:.9rem!important;line-height:1.45!important;max-width:720px!important;margin:0!important}
+.hero-art{min-height:108px!important;max-height:118px!important;border-radius:18px!important}
+.hero-art svg{max-height:105px!important}
+.section{padding:10px 0!important}
+.section-head{margin-bottom:8px!important}
+.section-head h2{font-size:1.18rem!important}
+.section-head p{display:none!important}
+.journey-grid{grid-template-columns:repeat(4,1fr)!important;gap:7px!important}
+.journey-card{
+  min-height:54px!important;padding:7px 9px!important;border-radius:11px!important;
+  grid-template-columns:25px 1fr!important;column-gap:7px!important
+}
+.journey-card .iconbox{width:25px!important;height:25px!important;border-radius:7px!important}
+.journey-card .iconbox svg{width:14px!important;height:14px!important}
+.journey-card strong{font-size:.78rem!important;line-height:1.15!important}
+.journey-card span{display:none!important}
+.prep{margin-top:9px!important;padding:11px 14px!important;border-radius:14px!important}
+.prep-header-v67{margin:0 0 6px!important;padding:0!important}
+.prep-header-v67 .prep-kicker{display:none!important}
+.prep-header-v67 h3{
+  display:inline!important;font-size:.78rem!important;font-weight:800!important;color:var(--muted)!important
+}
+.prep-header-v67 h3:before{content:"נבחר: ";font-weight:600}
+.prep-header-v67 p{display:none!important}
+.submitter-block-v67{padding:7px 0 9px!important}
+.submitter-block-v67 h4{font-size:.93rem!important;margin-bottom:6px!important}
+.submitter-block-v67>p.hint{display:none!important}
+.submitter{gap:7px!important}
+.submitter .choice{min-height:48px!important;padding:7px 10px!important;border-radius:10px!important}
+.submitter .choice strong{font-size:.82rem!important}
+.submitter .choice .hint{font-size:.68rem!important}
+#routeContextV68{margin-top:5px!important;font-size:.7rem!important}
+.prep-dropdown-wrap{padding-top:7px!important}
+.prep-toggle-v67 strong{font-size:.9rem!important}
+.prep-toggle-v67 small{font-size:.7rem!important}
+.prep-ready{margin-top:8px!important;padding:8px 10px!important}
+.prep-ready div{font-size:.76rem!important}
+.prep-ready .btn{min-height:38px!important;padding:8px 14px!important}
+.how-small-v67{display:none!important}
+@media(max-width:720px){
+ .hero-grid{grid-template-columns:1fr!important}.hero-art{display:none!important}
+ .journey-grid{grid-template-columns:1fr 1fr!important}
+ .submitter{grid-template-columns:1fr!important}
 }
 
 </style>
