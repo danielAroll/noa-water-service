@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
+<!-- V6.8 dynamic route and submitter preparation -->
 <!-- V6.5 contextual visual guidance based on peer feedback. Illustrations only; no invented document requirements. -->
 <!-- V6.4 clean: preparation screen structurally redesigned from V6.3 after peer feedback; no duplicated submitter UI. -->
 <meta charset="utf-8">
@@ -330,6 +331,83 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
 .visual-help-copy h5{margin:0 0 5px;font-size:.95rem}.visual-help-copy p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.visual-note{margin-top:8px;font-size:.76rem;color:var(--muted)}
 @media(max-width:620px){.visual-help-grid{grid-template-columns:1fr}.visual-demo{min-height:90px}}
 
+
+/* V6.7 - clean preparation screen */
+.hero{padding:24px 0 28px}
+.hero-grid{grid-template-columns:1.32fr .68fr;gap:28px}
+.hero-art{min-height:220px;border-radius:24px}
+.hero-copy{margin-bottom:16px}
+.section{padding-top:14px}
+.journey-grid{gap:10px}
+.journey-card{
+  min-height:96px;
+  padding:12px 13px;
+  border-radius:14px;
+  display:grid;
+  grid-template-columns:34px 1fr;
+  grid-template-rows:auto auto;
+  column-gap:9px;
+  align-items:center;
+}
+.journey-card .iconbox{
+  width:34px;height:34px;border-radius:10px;margin:0;
+  grid-row:1 / span 2;
+}
+.journey-card .iconbox svg{width:18px;height:18px}
+.journey-card strong{font-size:.92rem;margin:0;align-self:end}
+.journey-card span{font-size:.76rem;line-height:1.35;align-self:start;margin-top:2px}
+.prep{
+  margin-top:16px;
+  padding:18px;
+  border-radius:18px;
+}
+.prep-header-v67{margin-bottom:14px}
+.prep-header-v67 .prep-kicker{display:block;margin-bottom:3px}
+.prep-header-v67 h3{font-size:1.12rem;margin:0 0 3px}
+.prep-header-v67 p{margin:0;color:var(--muted);font-size:.88rem}
+.submitter-block-v67{padding:14px 0 16px;border-bottom:1px solid var(--line)}
+.submitter-block-v67 h4{margin:0 0 3px;font-size:1.04rem}
+.submitter-block-v67>.hint{margin:0 0 10px}
+.submitter{margin:0;gap:10px}
+.submitter .choice{
+  min-height:68px;
+  padding:11px 13px;
+  border-radius:13px;
+  justify-content:center;
+}
+.submitter .choice strong{font-size:.93rem}
+.submitter .choice .hint{font-size:.78rem;line-height:1.35}
+.prep-dropdown-wrap{padding-top:14px}
+.prep-toggle-v67{
+  width:100%;border:0;background:transparent;padding:2px 0;
+  display:flex;justify-content:space-between;align-items:center;
+  text-align:right;cursor:pointer;color:var(--navy);font:inherit;
+}
+.prep-toggle-v67 strong{font-size:1.04rem}
+.prep-toggle-v67 small{display:block;margin-top:2px;color:var(--muted);font-weight:500;font-size:.8rem}
+.prep-toggle-v67 .arrow{font-size:1.2rem;transition:.18s}
+.prep-toggle-v67.open .arrow{transform:rotate(180deg)}
+.prep-collapse-v67{display:none;margin-top:10px}
+.prep-collapse-v67.open{display:block}
+.prep-list{margin-top:0!important}
+.prep-ready{margin-top:15px;padding:13px 15px}
+.how-small-v67{padding:6px 0 26px}
+.how-small-v67 .how-line{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+  color:var(--muted);font-size:.76rem
+}
+.how-small-v67 .how-line span{
+  padding:8px 7px;border-radius:10px;background:#f6f9fa;text-align:center
+}
+.how-small-v67 strong{display:block;color:var(--navy);font-size:.84rem;margin-bottom:7px}
+@media(max-width:720px){
+  .hero-art{min-height:180px}
+  .journey-grid{grid-template-columns:1fr 1fr}
+  .journey-card{min-height:88px}
+  .submitter{grid-template-columns:1fr 1fr}
+  .how-small-v67 .how-line{grid-template-columns:1fr 1fr}
+}
+
 </style>
 </head>
 <body>
@@ -410,68 +488,64 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
         </div>
 
         <div id="prep" class="prep show">
-          <div class="prep-header">
-            <div>
-              <span class="prep-kicker">לפני שמתחילים</span>
-              <h3>עוד שתי החלטות קצרות - ואז נראה לך בדיוק מה להכין</h3>
-              <p>כבר בחרת: <strong>נכנסתי לדירה בשכירות</strong>. עכשיו נברר מי מגיש את הבקשה, ורק אחר כך נציג את רשימת ההכנה המתאימה.</p>
+          <div class="prep-header-v67">
+            <span class="prep-kicker">לפני שמתחילים</span>
+            <h3 id="prepRouteTitleV68">נכנסתי לדירה בשכירות</h3>
+            <p id="prepRouteTextV68">מעבירים את חשבון המים על שמך מתחילת השכירות.</p>
+          </div>
+
+          <div class="submitter-block-v67">
+            <h4>מי מגיש את הבקשה?</h4>
+            <p class="hint">בחרי את האפשרות שמתאימה לך.</p>
+            <div class="submitter">
+              <button class="choice selected" onclick="selectSubmitter(this,false)">
+                <strong>אני מגישה בעצמי</strong>
+                <span class="hint" id="selfSubmitHintV68">את גם השוכרת וגם מגישת הבקשה</span>
+              </button>
+              <button class="choice" onclick="selectSubmitter(this,true)">
+                <strong>מישהו אחר מגיש עבורי</strong>
+                <span class="hint">מיופה כוח, עורך דין או מתווך</span>
+              </button>
             </div>
           </div>
 
-          <div class="decision-block">
-            <div class="decision-number">1</div>
-            <div class="decision-content">
-              <h4>מי מגיש את הבקשה?</h4>
-              <p class="hint">בחרי אפשרות אחת.</p>
-              <div class="submitter">
-                <button class="choice selected" onclick="selectSubmitter(this,false)">
-                  <strong>אני מגישה בעצמי</strong>
-                  <span class="hint">נועה היא גם הפונה וגם השוכרת</span>
-                </button>
-                <button class="choice" onclick="selectSubmitter(this,true)">
-                  <strong>מישהו אחר מגיש עבורי</strong>
-                  <span class="hint">מיופה כוח, עורך דין או מתווך</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="decision-block prep-list-block">
-            <div class="decision-number">2</div>
-            <div class="decision-content">
-              <h4>מה צריך להכין?</h4>
-              <p class="hint" id="prep-context">לפי מה שבחרת, אלה הדברים שכדאי שיהיו לידך לפני שמתחילים.</p>
-
+          <div id="routeContextV68" class="hint" style="margin-top:12px"></div>
+          <div class="prep-dropdown-wrap">
+            <button type="button" class="prep-toggle-v67" id="prepToggleV67" onclick="togglePrepV67()">
+              <span><strong>מה צריך להכין?</strong><small>פתחי את הרשימה</small></span>
+              <span class="arrow">⌄</span>
+            </button>
+            <div class="prep-collapse-v67" id="prepCollapseV67">
               <div class="prep-list" id="prep-checklist">
-<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות + ספח פתוח</strong><span>תעודת הזהות של הפונה, כולל הספח כשהוא פתוח וניתן לקריאה.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-id',this)">איך זה נראה?</button><div class="visual-help" id="help-id"><div class="visual-help-grid"><div class="visual-demo id-demo" aria-hidden="true"><div class="id-card"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div><div class="id-slip"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div></div><div class="visual-help-copy"><h5>תעודה + ספח פתוח</h5><p>הפרטים בתעודה ובספח צריכים להיות גלויים וקריאים. האיור הוא דוגמה בלבד ואינו מסמך אמיתי.</p></div></div></div></div></div>
-<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות של בעל הנכס</strong><span>מסמך הזיהוי של בעל הנכס שממנו נשכרת הדירה.</span></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות + ספח פתוח שלך - השוכרת</strong><span>את האדם שעל שמו יעבור חשבון המים. כשאת מגישה בעצמך, נשתמש באותם פרטים גם עבור מגישת הבקשה.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-id',this)">איך זה נראה?</button><div class="visual-help" id="help-id"><div class="visual-help-grid"><div class="visual-demo id-demo" aria-hidden="true"><div class="id-card"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div><div class="id-slip"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div></div><div class="visual-help-copy"><h5>תעודה + ספח פתוח</h5><p>הפרטים בתעודה ובספח צריכים להיות גלויים וקריאים. האיור הוא דוגמה בלבד ואינו מסמך אמיתי.</p></div></div></div></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות של בעל הנכס</strong><span>של האדם שממנו את שוכרת את הדירה. נדרשת גם כאשר את מגישה את הבקשה בעצמך.</span></div></div>
 <div class="prep-row"><span class="prep-check">✓</span><div><strong>מסמכי חוזה השכירות</strong><span>הכיני את חוזה השכירות של הנכס. במהלך הבקשה נציג אילו מסמכים יש לצרף.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-contract',this)">איזה מסמך זה?</button><div class="visual-help" id="help-contract"><div class="visual-help-grid"><div class="visual-demo contract-demo" aria-hidden="true"><div class="contract-page"><strong>חוזה שכירות</strong><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div></div><div class="visual-help-copy"><h5>חוזה השכירות של הדירה</h5><p>זהו המסמך שנחתם בין השוכר/ת לבעל הנכס. ההמחשה לא קובעת אילו עמודים נדרשים.</p></div></div></div></div></div>
 <div class="prep-row"><span class="prep-check">✓</span><div><strong>פרטי הנכס</strong><span>כתובת הנכס, מספר הנכס ומועד תחילת השכירות.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-bill',this)">איפה מוצאים את מספר הנכס?</button><div class="visual-help" id="help-bill"><div class="visual-help-grid"><div class="visual-demo bill-demo" aria-hidden="true"><div class="bill-title">חשבון מים - דוגמה</div><div class="bill-row focus"><span>מספר נכס</span><strong>123456</strong></div><div class="bill-row"><span>כתובת</span><strong>ביאליק 12</strong></div><div class="bill-row focus"><span>כרטיס מים</span><strong>78910</strong></div></div><div class="visual-help-copy"><h5>אפשר להיעזר בחשבון מים קיים</h5><p>סימנו בנפרד את מספר הנכס ואת מספר כרטיס המים כדי שלא יתבלבלו ביניהם.</p><div class="visual-note">החשבון המוצג הוא המחשה בלבד.</div></div></div></div></div></div>
 <div class="prep-row"><span class="prep-check">✓</span><div><strong>פרטי מונה המים</strong><span>מספר כרטיס המים, קריאת המונה ותאריך הקריאה.</span></div></div>
 <div class="prep-row"><span class="prep-check">✓</span><div><strong>צילום מונה עדכני</strong><span>צילום שבו קריאת המונה ברורה וניתנת לקריאה.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-meter',this)">איך לצלם נכון?</button><div class="visual-help" id="help-meter"><div class="visual-help-grid"><div class="visual-demo meter-demo" aria-hidden="true"><div class="meter-face"><div class="meter-digits">12543</div></div></div><div class="visual-help-copy"><h5>הקריאה צריכה להיות ברורה</h5><p>צלמי את המונה כך שאזור הספרות יהיה גלוי, חד ולא מוסתר.</p></div></div></div></div></div>
 <div class="prep-row"><span class="prep-check">✓</span><div><strong>מסמכי בגירים נוספים</strong><span>תעודות זהות וספחים מלאים של בגירים נוספים המתגוררים בנכס - אם יש כאלה.</span></div></div>
-<div class="prep-row rep-prep-item" id="rep-id-prep"><span class="prep-check">+</span><div><strong>תעודת זהות של המגיש/ה</strong><span>נדרשת בנוסף כאשר מישהו אחר מגיש את הבקשה עבורך.</span></div></div>
-<div class="prep-row rep-prep-item" id="rep-poa-prep"><span class="prep-check">+</span><div><strong>ייפוי כוח חתום</strong><span>נדרש כאשר הבקשה מוגשת באמצעות נציג/ה.</span></div></div>
+<div class="prep-row rep-prep-item" id="rep-id-prep"><span class="prep-check">+</span><div><strong>תעודת זהות של המגיש/ה מטעמך</strong><span>של האדם שמגיש את הבקשה עבורך. מתווספת רק כשאינך מגישה בעצמך.</span></div></div>
+<div class="prep-row rep-prep-item" id="rep-poa-prep"><span class="prep-check">+</span><div><strong>ייפוי כוח חתום</strong><span>מאשר למגיש/ה לפעול בשמך. מתווסף רק כשמישהו אחר מגיש עבורך.</span></div></div>
 </div>
             </div>
           </div>
 
           <div class="prep-ready">
-            <div><strong>לא חייבים להעלות הכול במסך הזה.</strong><span> הרשימה נועדה כדי שתדעי מראש מה יידרש בהמשך ולא תיתקעי באמצע.</span></div>
-            <button class="btn btn-primary" onclick="startApplication()">יש לי מה שצריך - מתחילים ←</button>
+            <div><strong>מוכנה להתחיל?</strong><span> אפשר להשלים מסמכים במהלך הבקשה.</span></div>
+            <button class="btn btn-primary" onclick="startApplication()">מתחילים ←</button>
           </div>
         </div>
       </div>
     </section>
 
-<section class="section" style="padding-top:0">
+<section class="how-small-v67">
   <div class="shell">
-    <div class="section-head"><div><h2>איך זה עובד?</h2><p>תהליך קצר וברור, מההכנה ועד לעדכון החשבון.</p></div></div>
-    <div class="metric-grid">
-      <div class="metric"><div class="iconbox">1</div><strong style="font-size:1.05rem">בוחרים מה השתנה</strong><small>נציג רק את מה שרלוונטי למקרה שלך.</small></div>
-      <div class="metric"><div class="iconbox">2</div><strong style="font-size:1.05rem">ממלאים ומעלים</strong><small>אפשר לצלם מסמכים ומונה ישירות מהנייד.</small></div>
-      <div class="metric"><div class="iconbox">3</div><strong style="font-size:1.05rem">בודקים ושולחים</strong><small>מקבלים סיכום ברור לפני השליחה.</small></div>
-      <div class="metric"><div class="iconbox">4</div><strong style="font-size:1.05rem">עוקבים אחרי הטיפול</strong><small>אם חסר משהו, משלימים רק אותו.</small></div>
+    <strong>איך זה עובד?</strong>
+    <div class="how-line">
+      <span>1. בוחרים מה השתנה</span>
+      <span>2. ממלאים פרטים</span>
+      <span>3. מעלים מסמכים</span>
+      <span>4. שולחים ועוקבים</span>
     </div>
   </div>
 </section>
@@ -1159,4 +1233,97 @@ function toggleVisualHelp(id,btn){
  if(btn)btn.textContent=opening?'סגירת הדוגמה':labels[id];
 }
 </script>
+
+<script>
+function togglePrepV67(){
+  const btn=document.getElementById('prepToggleV67');
+  const box=document.getElementById('prepCollapseV67');
+  if(!btn||!box) return;
+  const open=!box.classList.contains('open');
+  box.classList.toggle('open',open);
+  btn.classList.toggle('open',open);
+}
+</script>
+
+
+<script>
+const rentChecklistV68="\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>תעודת זהות + ספח פתוח שלך - השוכרת</strong><span>את האדם שעל שמו יעבור חשבון המים. כשאת מגישה בעצמך, נשתמש באותם פרטים גם עבור מגישת הבקשה.</span><button type=\"button\" class=\"help-link\" onclick=\"toggleVisualHelp('help-id',this)\">איך זה נראה?</button><div class=\"visual-help\" id=\"help-id\"><div class=\"visual-help-grid\"><div class=\"visual-demo id-demo\" aria-hidden=\"true\"><div class=\"id-card\"><div class=\"demo-line\"></div><div class=\"demo-line\"></div><div class=\"demo-line\"></div></div><div class=\"id-slip\"><div class=\"demo-line\"></div><div class=\"demo-line\"></div><div class=\"demo-line\"></div></div></div><div class=\"visual-help-copy\"><h5>תעודה + ספח פתוח</h5><p>הפרטים בתעודה ובספח צריכים להיות גלויים וקריאים. האיור הוא דוגמה בלבד ואינו מסמך אמיתי.</p></div></div></div></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>תעודת זהות של בעל הנכס</strong><span>של האדם שממנו את שוכרת את הדירה. נדרשת גם כאשר את מגישה את הבקשה בעצמך.</span></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>מסמכי חוזה השכירות</strong><span>הכיני את חוזה השכירות של הנכס. במהלך הבקשה נציג אילו מסמכים יש לצרף.</span><button type=\"button\" class=\"help-link\" onclick=\"toggleVisualHelp('help-contract',this)\">איזה מסמך זה?</button><div class=\"visual-help\" id=\"help-contract\"><div class=\"visual-help-grid\"><div class=\"visual-demo contract-demo\" aria-hidden=\"true\"><div class=\"contract-page\"><strong>חוזה שכירות</strong><div class=\"demo-line\"></div><div class=\"demo-line\"></div><div class=\"demo-line\"></div><div class=\"demo-line\"></div></div></div><div class=\"visual-help-copy\"><h5>חוזה השכירות של הדירה</h5><p>זהו המסמך שנחתם בין השוכר/ת לבעל הנכס. ההמחשה לא קובעת אילו עמודים נדרשים.</p></div></div></div></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>פרטי הנכס</strong><span>כתובת הנכס, מספר הנכס ומועד תחילת השכירות.</span><button type=\"button\" class=\"help-link\" onclick=\"toggleVisualHelp('help-bill',this)\">איפה מוצאים את מספר הנכס?</button><div class=\"visual-help\" id=\"help-bill\"><div class=\"visual-help-grid\"><div class=\"visual-demo bill-demo\" aria-hidden=\"true\"><div class=\"bill-title\">חשבון מים - דוגמה</div><div class=\"bill-row focus\"><span>מספר נכס</span><strong>123456</strong></div><div class=\"bill-row\"><span>כתובת</span><strong>ביאליק 12</strong></div><div class=\"bill-row focus\"><span>כרטיס מים</span><strong>78910</strong></div></div><div class=\"visual-help-copy\"><h5>אפשר להיעזר בחשבון מים קיים</h5><p>סימנו בנפרד את מספר הנכס ואת מספר כרטיס המים כדי שלא יתבלבלו ביניהם.</p><div class=\"visual-note\">החשבון המוצג הוא המחשה בלבד.</div></div></div></div></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>פרטי מונה המים</strong><span>מספר כרטיס המים, קריאת המונה ותאריך הקריאה.</span></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>צילום מונה עדכני</strong><span>צילום שבו קריאת המונה ברורה וניתנת לקריאה.</span><button type=\"button\" class=\"help-link\" onclick=\"toggleVisualHelp('help-meter',this)\">איך לצלם נכון?</button><div class=\"visual-help\" id=\"help-meter\"><div class=\"visual-help-grid\"><div class=\"visual-demo meter-demo\" aria-hidden=\"true\"><div class=\"meter-face\"><div class=\"meter-digits\">12543</div></div></div><div class=\"visual-help-copy\"><h5>הקריאה צריכה להיות ברורה</h5><p>צלמי את המונה כך שאזור הספרות יהיה גלוי, חד ולא מוסתר.</p></div></div></div></div></div>\n<div class=\"prep-row\"><span class=\"prep-check\">✓</span><div><strong>מסמכי בגירים נוספים</strong><span>תעודות זהות וספחים מלאים של בגירים נוספים המתגוררים בנכס - אם יש כאלה.</span></div></div>\n<div class=\"prep-row rep-prep-item\" id=\"rep-id-prep\"><span class=\"prep-check\">+</span><div><strong>תעודת זהות של המגיש/ה מטעמך</strong><span>של האדם שמגיש את הבקשה עבורך. מתווספת רק כשאינך מגישה בעצמך.</span></div></div>\n<div class=\"prep-row rep-prep-item\" id=\"rep-poa-prep\"><span class=\"prep-check\">+</span><div><strong>ייפוי כוח חתום</strong><span>מאשר למגיש/ה לפעול בשמך. מתווסף רק כשמישהו אחר מגיש עבורך.</span></div></div>\n";
+const routeUiV68={
+  'rent-in':{
+    title:'נכנסתי לדירה בשכירות',
+    text:'מעבירים את חשבון המים על שמך מתחילת השכירות.',
+    self:'את גם השוכרת וגם מגישת הבקשה',
+    context:'',
+    detailed:true
+  },
+  'rent-out':{
+    title:'סיימתי שכירות',
+    text:'מסירים את שמך מחשבון המים עם סיום תקופת השכירות.',
+    self:'את גם הדיירת היוצאת וגם מגישת הבקשה',
+    context:'הפרוטוטייפ המפורט בתרגיל מתמקד בתחילת שכירות. לכן לא הוספנו כאן מסמכים שלא הוגדרו בחומר המקור.',
+    detailed:false
+  },
+  'buy':{
+    title:'קניתי נכס',
+    text:'מעבירים את חשבון המים לבעלים החדשים.',
+    self:'את גם בעלת הנכס החדשה וגם מגישת הבקשה',
+    context:'הפרוטוטייפ המפורט בתרגיל מתמקד בתחילת שכירות. לכן לא הוספנו כאן מסמכים שלא הוגדרו בחומר המקור.',
+    detailed:false
+  },
+  'sell':{
+    title:'מכרתי נכס',
+    text:'מסירים את שמך ומעבירים את הטיפול בעקבות מכירת הנכס.',
+    self:'את גם בעלת הנכס היוצאת וגם מגישת הבקשה',
+    context:'הפרוטוטייפ המפורט בתרגיל מתמקד בתחילת שכירות. לכן לא הוספנו כאן מסמכים שלא הוגדרו בחומר המקור.',
+    detailed:false
+  }
+};
+
+function renderPrepV68(){
+  const cfg=routeUiV68[selectedJourneyV62]||routeUiV68['rent-in'];
+  const title=document.getElementById('prepRouteTitleV68');
+  const txt=document.getElementById('prepRouteTextV68');
+  const self=document.getElementById('selfSubmitHintV68');
+  const ctx=document.getElementById('routeContextV68');
+  const list=document.getElementById('prep-checklist');
+  if(title) title.textContent=cfg.title;
+  if(txt) txt.textContent=cfg.text;
+  if(self) self.textContent=cfg.self;
+  if(ctx) ctx.textContent=cfg.context;
+
+  if(list){
+    if(cfg.detailed){
+      list.innerHTML=rentChecklistV68;
+      list.querySelectorAll('.rep-prep-item').forEach(x=>x.classList.toggle('show',representativeV62));
+    } else {
+      list.innerHTML=
+        '<div class="prep-row"><span class="prep-check">i</span><div><strong>הרשימה משתנה לפי סוג ההחלפה</strong><span>בתרגיל שסופק לא הוגדרה רשימת מסמכים מלאה למסלול הזה, ולכן לא המצאנו דרישות.</span></div></div>'+
+        (representativeV62
+          ? '<div class="prep-row"><span class="prep-check">+</span><div><strong>מגיש/ה מטעמך</strong><span>בחירת נציג זוהתה. במסלול המלא יש להתאים גם את דרישות הייצוג לפי המקור.</span></div></div>'
+          : '');
+    }
+  }
+}
+
+selectJourney=function(el,type){
+  selectedJourneyV62=type;
+  document.querySelectorAll('.journey-card').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  const prep=document.getElementById('prep'); if(prep) prep.classList.add('show');
+  renderPrepV68();
+};
+
+selectSubmitter=function(el,isRep){
+  representativeV62=isRep;
+  document.querySelectorAll('.submitter .choice').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  renderPrepV68();
+  const box=document.getElementById('prepCollapseV67');
+  const btn=document.getElementById('prepToggleV67');
+  if(isRep && box && !box.classList.contains('open')){
+    box.classList.add('open'); if(btn) btn.classList.add('open');
+  }
+};
+</script>
+
 </body></html>
