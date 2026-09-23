@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
+<!-- V6.5 contextual visual guidance based on peer feedback. Illustrations only; no invented document requirements. -->
 <!-- V6.4 clean: preparation screen structurally redesigned from V6.3 after peer feedback; no duplicated submitter UI. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -310,6 +311,25 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
   .prep-ready{align-items:stretch;flex-direction:column}
 }
 
+
+/* V6.5 - contextual visual help */
+.help-link{border:0;background:transparent;color:#0878bd;font-weight:900;padding:0;margin-top:5px;cursor:pointer;text-align:right}
+.help-link:hover{text-decoration:underline}
+.visual-help{display:none;margin-top:10px;border:1px solid #dce8ed;border-radius:14px;background:#f8fbfc;padding:14px}
+.visual-help.show{display:block}
+.visual-help-grid{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+.visual-demo{min-height:104px;border:1px solid #ccdbe1;border-radius:12px;background:#fff;position:relative;overflow:hidden;padding:12px}
+.id-demo{display:grid;grid-template-columns:1fr .65fr;gap:6px}
+.id-card,.id-slip,.contract-page{border:1px solid #b8cbd3;border-radius:7px;background:#eef7fa;padding:8px;font-size:.68rem}
+.id-card:before{content:"תעודת זהות";font-weight:900;display:block;margin-bottom:8px}.id-slip:before{content:"ספח";font-weight:900;display:block;margin-bottom:8px}
+.demo-line{height:5px;background:#cbdbe1;border-radius:4px;margin:5px 0}.bill-demo{font-size:.67rem}.bill-title{font-weight:900;font-size:.78rem;margin-bottom:8px}
+.bill-row{display:flex;justify-content:space-between;padding:5px;border-radius:6px;margin:3px 0;background:#f4f7f8}.bill-row.focus{outline:2px solid #2b8fc4;background:#eef8fd}
+.meter-demo{display:grid;place-items:center;background:#eef3f4}.meter-face{width:110px;height:76px;border:7px solid #a9b8bd;border-radius:40px;background:#fff;display:grid;place-items:center}
+.meter-digits{font-family:monospace;font-size:1rem;font-weight:900;letter-spacing:2px;border:2px solid #2b8fc4;padding:5px;background:#f7fbfd}
+.contract-demo{display:grid;place-items:center;background:#f4f6f7}.contract-page{width:92px;height:118px;background:#fff}
+.visual-help-copy h5{margin:0 0 5px;font-size:.95rem}.visual-help-copy p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.visual-note{margin-top:8px;font-size:.76rem;color:var(--muted)}
+@media(max-width:620px){.visual-help-grid{grid-template-columns:1fr}.visual-demo{min-height:90px}}
+
 </style>
 </head>
 <body>
@@ -423,39 +443,16 @@ h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1.02;letter-spacing:-.045em;m
               <p class="hint" id="prep-context">לפי מה שבחרת, אלה הדברים שכדאי שיהיו לידך לפני שמתחילים.</p>
 
               <div class="prep-list" id="prep-checklist">
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>תעודת זהות + ספח פתוח</strong><span>שלך</span></div>
-                </div>
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>תעודת זהות של בעל הנכס</strong><span>נדרשת במסלול תחילת שכירות</span></div>
-                </div>
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>מסמכי חוזה השכירות</strong><span>נבקש אותם במהלך הבקשה</span></div>
-                </div>
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>פרטי הנכס והמים</strong><span>מספר נכס, מספר כרטיס מים, קריאה ותאריך</span></div>
-                </div>
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>צילום מונה עדכני</strong><span>צילום שבו אפשר לזהות את הקריאה</span></div>
-                </div>
-                <div class="prep-row">
-                  <span class="prep-check">✓</span>
-                  <div><strong>מסמכי בגירים נוספים</strong><span>רק אם יש בגירים נוספים שמתגוררים בנכס</span></div>
-                </div>
-                <div class="prep-row rep-prep-item" id="rep-id-prep">
-                  <span class="prep-check">+</span>
-                  <div><strong>תעודת זהות של המגיש/ה</strong><span>נוסף כי בחרת שמישהו אחר מגיש עבורך</span></div>
-                </div>
-                <div class="prep-row rep-prep-item" id="rep-poa-prep">
-                  <span class="prep-check">+</span>
-                  <div><strong>ייפוי כוח חתום</strong><span>נוסף כי הבקשה מוגשת באמצעות נציג/ה</span></div>
-                </div>
-              </div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות + ספח פתוח</strong><span>תעודת הזהות של הפונה, כולל הספח כשהוא פתוח וניתן לקריאה.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-id',this)">איך זה נראה?</button><div class="visual-help" id="help-id"><div class="visual-help-grid"><div class="visual-demo id-demo" aria-hidden="true"><div class="id-card"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div><div class="id-slip"><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div></div><div class="visual-help-copy"><h5>תעודה + ספח פתוח</h5><p>הפרטים בתעודה ובספח צריכים להיות גלויים וקריאים. האיור הוא דוגמה בלבד ואינו מסמך אמיתי.</p></div></div></div></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>תעודת זהות של בעל הנכס</strong><span>מסמך הזיהוי של בעל הנכס שממנו נשכרת הדירה.</span></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>מסמכי חוזה השכירות</strong><span>הכיני את חוזה השכירות של הנכס. במהלך הבקשה נציג אילו מסמכים יש לצרף.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-contract',this)">איזה מסמך זה?</button><div class="visual-help" id="help-contract"><div class="visual-help-grid"><div class="visual-demo contract-demo" aria-hidden="true"><div class="contract-page"><strong>חוזה שכירות</strong><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div><div class="demo-line"></div></div></div><div class="visual-help-copy"><h5>חוזה השכירות של הדירה</h5><p>זהו המסמך שנחתם בין השוכר/ת לבעל הנכס. ההמחשה לא קובעת אילו עמודים נדרשים.</p></div></div></div></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>פרטי הנכס</strong><span>כתובת הנכס, מספר הנכס ומועד תחילת השכירות.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-bill',this)">איפה מוצאים את מספר הנכס?</button><div class="visual-help" id="help-bill"><div class="visual-help-grid"><div class="visual-demo bill-demo" aria-hidden="true"><div class="bill-title">חשבון מים - דוגמה</div><div class="bill-row focus"><span>מספר נכס</span><strong>123456</strong></div><div class="bill-row"><span>כתובת</span><strong>ביאליק 12</strong></div><div class="bill-row focus"><span>כרטיס מים</span><strong>78910</strong></div></div><div class="visual-help-copy"><h5>אפשר להיעזר בחשבון מים קיים</h5><p>סימנו בנפרד את מספר הנכס ואת מספר כרטיס המים כדי שלא יתבלבלו ביניהם.</p><div class="visual-note">החשבון המוצג הוא המחשה בלבד.</div></div></div></div></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>פרטי מונה המים</strong><span>מספר כרטיס המים, קריאת המונה ותאריך הקריאה.</span></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>צילום מונה עדכני</strong><span>צילום שבו קריאת המונה ברורה וניתנת לקריאה.</span><button type="button" class="help-link" onclick="toggleVisualHelp('help-meter',this)">איך לצלם נכון?</button><div class="visual-help" id="help-meter"><div class="visual-help-grid"><div class="visual-demo meter-demo" aria-hidden="true"><div class="meter-face"><div class="meter-digits">12543</div></div></div><div class="visual-help-copy"><h5>הקריאה צריכה להיות ברורה</h5><p>צלמי את המונה כך שאזור הספרות יהיה גלוי, חד ולא מוסתר.</p></div></div></div></div></div>
+<div class="prep-row"><span class="prep-check">✓</span><div><strong>מסמכי בגירים נוספים</strong><span>תעודות זהות וספחים מלאים של בגירים נוספים המתגוררים בנכס - אם יש כאלה.</span></div></div>
+<div class="prep-row rep-prep-item" id="rep-id-prep"><span class="prep-check">+</span><div><strong>תעודת זהות של המגיש/ה</strong><span>נדרשת בנוסף כאשר מישהו אחר מגיש את הבקשה עבורך.</span></div></div>
+<div class="prep-row rep-prep-item" id="rep-poa-prep"><span class="prep-check">+</span><div><strong>ייפוי כוח חתום</strong><span>נדרש כאשר הבקשה מוגשת באמצעות נציג/ה.</span></div></div>
+</div>
             </div>
           </div>
 
@@ -1152,4 +1149,14 @@ goHome=function(){
 };
 </script>
 
+<script>
+function toggleVisualHelp(id,btn){
+ const el=document.getElementById(id); if(!el)return;
+ const opening=!el.classList.contains('show');
+ document.querySelectorAll('.visual-help.show').forEach(x=>{if(x!==el)x.classList.remove('show')});
+ el.classList.toggle('show',opening);
+ const labels={'help-id':'איך זה נראה?','help-contract':'איזה מסמך זה?','help-bill':'איפה מוצאים את מספר הנכס?','help-meter':'איך לצלם נכון?'};
+ if(btn)btn.textContent=opening?'סגירת הדוגמה':labels[id];
+}
+</script>
 </body></html>
